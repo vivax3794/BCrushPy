@@ -2,10 +2,11 @@
 The core interpreter
 """
 from typing import Dict, List
-from . import Text
+from . import Text, Networking
 
 Categories = {
-    1: Text
+    1: Text,
+    44: Networking
 }
 
 
@@ -57,7 +58,6 @@ def run(code: str) -> None:
     code_pos = 0
     while code_pos < len(code):
         letter = code[code_pos]
-        # print("memory:", memory, pointer, letter, buffer_in, buffer_out)
 
         if letter == "+":
             memory[pointer] += 1
