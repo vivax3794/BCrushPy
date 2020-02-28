@@ -1,7 +1,12 @@
 """
 The core interpreter
 """
-from typing import Dict
+from typing import Dict, List
+from . import Text
+
+Categories = {
+    1: Text
+}
 
 
 class InfiniteArray:
@@ -51,8 +56,8 @@ def run(code: str) -> None:
 
     code_pos = 0
     while code_pos < len(code):
-        print("memory:", memory)
         letter = code[code_pos]
+        # print("memory:", memory, pointer, letter, buffer_in, buffer_out)
 
         if letter == "+":
             memory[pointer] += 1
@@ -82,7 +87,38 @@ def run(code: str) -> None:
                 jump_to = jumps[code_pos]
                 code_pos = jump_to
 
+        elif letter == ",":
+            value = memory[pointer]
+            add_to_buffer(memory, pointer, value, buffer_in, "input")
+
+        elif letter == ".":
+            value = memory[pointer]
+            add_to_buffer(memory, pointer, value, buffer_out, "output")
+
         code_pos += 1
+
+
+def add_to_buffer(memory, pointer, value, buffer, type_of_buffer):
+    if value == 0:
+        category = Categories[buffer[0]]
+
+        if type_of_buffer == "input":
+            function = category.INPUT[buffer[1]]
+        elif type_of_buffer == "output":
+            function = category.OUTPUT[buffer[1]]
+        else:
+            raise ValueError("Vivax wrote the fucking wrong thing")
+
+        arguments = buffer[2:]
+        result = function(*arguments)
+
+        for arg_index, mem_index in enumerate(range(pointer, pointer + len(result))):
+            memory[mem_index] = result[arg_index]
+
+        buffer.clear()
+
+    else:
+        buffer.append(value)
 
 
 def find_jump(code: str) -> Dict[int, int]:
@@ -118,6 +154,3 @@ def find_jump(code: str) -> Dict[int, int]:
     return jumps
 
 
-if __name__ == "__main__":
-    code = ""
-    run(code)
