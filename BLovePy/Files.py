@@ -7,8 +7,7 @@ def read(*arguments):
 
 def write(*arguments):
     arguments = "".join(chr(code) for code in arguments)
-    path, *content = arguments.split("||")
-    content = "||".join(content)
+    path, content = arguments.split(chr(1))
     with open(path, "w+") as f:
         f.write(content)
 
