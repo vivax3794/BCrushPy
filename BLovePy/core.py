@@ -2,10 +2,12 @@
 The core interpreter
 """
 from typing import Dict, List
-from . import Text, Networking
+
+from . import Text, Networking, Files
 
 Categories = {
     1: Text,
+    10: Files,
     44: Networking
 }
 
