@@ -1,5 +1,5 @@
-# BLovePy
-A python interpreter for [BrainLove](https://github.com/vivax3794/BrainLove)
+# BCrushPy
+A python interpreter for [BrainCrush](https://github.com/vivax3794/BrainCrush)
 
 This is work in progress.
 
